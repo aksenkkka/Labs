@@ -2,16 +2,15 @@ public class StringCalculator {
     public int add(String numbers) {
         if (numbers.isEmpty()) {
             return 0;
-        } else {
-            String delimiter = "[,\n]";
-            String[] number = numbers.split(delimiter);
+        } else if (numbers.contains(",")) {
+            String[] numberParts = numbers.split("[,\n]",-1);
             int sum = 0;
-            for (String num : number) {
-                if (!num.isEmpty()) {
-                    sum += Integer.parseInt(num);
-                }
+            for (String num : numberParts) {
+                sum += Integer.parseInt(num);
             }
             return sum;
+        } else {
+            return Integer.parseInt(numbers);
         }
     }
 }

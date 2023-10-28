@@ -29,5 +29,15 @@ class StringCalculatorTest {
         assertEquals(6, calc.add("2,1,3"));
         assertEquals(10, calc.add("1,5,4"));
     }
+    //Крок 3
+    @Test
+    void newLine(){
+        assertEquals(6, calc.add("1\n2,3"));
+        assertEquals(9, calc.add("1\n1,3,2,2"));
+        assertThrows(IllegalArgumentException.class, () -> calc.add("1,\n"));
+        assertThrows(IllegalArgumentException.class, () -> calc.add("1,\n,3"));
+        assertThrows(IllegalArgumentException.class, () -> calc.add("1,2,3\n4,5,"));
+        assertThrows(IllegalArgumentException.class, () -> calc.add("1,2,3\n5,3,"));
+    }
 }
 
