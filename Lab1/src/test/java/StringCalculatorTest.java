@@ -48,5 +48,13 @@ class StringCalculatorTest {
         assertEquals(211, calc.add("//!\n5!6\n200"));
         assertThrows(IllegalArgumentException.class, () -> calc.add("//!\n5!6\n200!"));
     }
+    //Крок 5
+    @Test
+    public void addFailOnSingleNegativeNumber() {
+        assertThrows(IllegalArgumentException.class, () -> new StringCalculator().add("-100"));
+        assertThrows(IllegalArgumentException.class, () -> calc.add("-1,-2,-3"));
+        assertThrows(IllegalArgumentException.class, () -> calc.add("1,2\n-3"));
+        assertThrows(IllegalArgumentException.class, () -> calc.add("//;\n-1;2;-3"));
+    }
 }
 

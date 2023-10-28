@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class StringCalculator {
     public int add(String numbers) {
         if (numbers.isEmpty()) {
@@ -19,13 +22,22 @@ public class StringCalculator {
         }
 
         int sum = 0;
+        List<Integer> negativeNumbers = new ArrayList<>();
 
         for (String numberStr : numbers.substring(numberListStart).split(splitPattern, -1)) {
             if (numberStr.isEmpty()) {
                 throwInvalidFormat();
             }
 
-            sum += Integer.parseInt(numberStr);
+            int num = Integer.parseInt(numberStr);
+            if (num < 0) {
+                negativeNumbers.add(num);
+            }
+            sum += num;
+        }
+
+        if (!negativeNumbers.isEmpty()) {
+            throwNegativeNumbersException(negativeNumbers);
         }
 
         return sum;
@@ -33,5 +45,10 @@ public class StringCalculator {
 
     private void throwInvalidFormat() {
         throw new IllegalArgumentException("Invalid input format.");
+    }
+
+    private void throwNegativeNumbersException(List<Integer> negativeNumbers) {
+        String message = "Negatives not allowed: " + negativeNumbers.toString();
+        throw new IllegalArgumentException(message);
     }
 }
