@@ -39,5 +39,14 @@ class StringCalculatorTest {
         assertThrows(IllegalArgumentException.class, () -> calc.add("1,2,3\n4,5,"));
         assertThrows(IllegalArgumentException.class, () -> calc.add("1,2,3\n5,3,"));
     }
+    //Крок 4
+    @Test
+    void userDelimiters() {
+        assertEquals(6, calc.add("//;\n1;2;3"));
+        assertEquals(6, calc.add("//;\n1;2\n3"));
+        assertEquals(107, calc.add("//!\n3!4!100"));
+        assertEquals(211, calc.add("//!\n5!6\n200"));
+        assertThrows(IllegalArgumentException.class, () -> calc.add("//!\n5!6\n200!"));
+    }
 }
 
