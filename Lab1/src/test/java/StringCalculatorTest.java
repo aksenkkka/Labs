@@ -69,5 +69,18 @@ class StringCalculatorTest {
         assertEquals(10, calc.add("//[bb]\n1bb2bb3bb4"));
         assertEquals(36, calc.add("//[i]\n1i2i3i4i5i6i7i8"));
     }
+    //Крок 8
+    @Test
+    void severalDelimiters() {
+        assertEquals(21, calc.add("//[a][b]\n1b2a3b4b5b6"));
+        assertEquals(15, calc.add("//[c][d][e]\n2c3d6e4"));
+    }
+    //Крок 9
+    @Test
+    void severalDelimitersOfArbitraryLength() {
+        assertEquals(1180, calc.add("//[**][%%]\n100%%200%%300%%400**50**60%%70"));
+        assertEquals(4, calc.add("//[first][second]\n1first1second2"));
+    }
+
 }
 

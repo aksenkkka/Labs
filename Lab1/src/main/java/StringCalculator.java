@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 public class StringCalculator {
     public int add(String numbers) {
@@ -40,14 +41,21 @@ public class StringCalculator {
         if (text.length() == 1) {
             return "[,\n" + text.charAt(0) + "]";
         }
-        if (text.charAt(0) != '[' || text.indexOf(']', 1) == -1) {
+        Pattern pattern = Pattern.compile("\\[(.*?)]");
+        Matcher matcher = pattern.matcher(text);
+        StringBuilder delimiters = new StringBuilder();
+        while (matcher.find()) {
+            String delimiter = matcher.group(1);
+            if (delimiter.isEmpty()) {
+                throwInvalidFormat();
+            }
+            delimiters.append(Pattern.quote(delimiter)).append("|");
+        }
+        if (delimiters.isEmpty()) {
             throwInvalidFormat();
         }
-        String delimiter = text.substring(1, text.indexOf(']', 1));
-        if (delimiter.isEmpty()) {
-            throwInvalidFormat();
-        }
-        return Pattern.quote(delimiter) + "|,|\n";
+        delimiters.deleteCharAt(delimiters.length() - 1);
+        return delimiters.append("|,|\n").toString();
     }
     private static void throwInvalidFormat () {
         throw new IllegalArgumentException("Invalid input format.");
