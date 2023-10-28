@@ -56,5 +56,11 @@ class StringCalculatorTest {
         assertThrows(IllegalArgumentException.class, () -> calc.add("1,2\n-3"));
         assertThrows(IllegalArgumentException.class, () -> calc.add("//;\n-1;2;-3"));
     }
+    //Крок 6
+    @Test
+    void ignoreGreaterThan1000() {
+        assertEquals(1000, calc.add("1,1001,999,10000,2000"));
+        assertEquals(1000, calc.add("1000"));
+    }
 }
 
