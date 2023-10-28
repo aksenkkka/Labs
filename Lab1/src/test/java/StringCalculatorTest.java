@@ -62,5 +62,12 @@ class StringCalculatorTest {
         assertEquals(1000, calc.add("1,1001,999,10000,2000"));
         assertEquals(1000, calc.add("1000"));
     }
+    //Крок 7
+    @Test
+    void delimiterOfArbitraryLength() {
+        assertEquals(6, calc.add("//[***]\n1***2***3"));
+        assertEquals(10, calc.add("//[bb]\n1bb2bb3bb4"));
+        assertEquals(36, calc.add("//[i]\n1i2i3i4i5i6i7i8"));
+    }
 }
 

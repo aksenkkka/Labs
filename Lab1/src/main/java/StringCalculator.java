@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 public class StringCalculator {
     public int add(String numbers) {
         if (numbers.isEmpty()) {
@@ -8,17 +9,13 @@ public class StringCalculator {
 
         String splitPattern = "[,\n]";
         int numberListStart = 0;
-
         if (numbers.startsWith("//")) {
-            int delimiterEnd = numbers.indexOf("\n");
-            if (delimiterEnd != -1) {
-                char optSplitChar = numbers.charAt(2);
-                splitPattern = "[,\n" + optSplitChar + "]";
-                numberListStart = delimiterEnd + 1;
-            }
-            else {
+            int delListEnd = numbers.indexOf('\n');
+            if (delListEnd < 0) {
                 throwInvalidFormat();
             }
+            splitPattern = parseDelimiterList(numbers.substring(2, delListEnd));
+            numberListStart = delListEnd + 1;
         }
         int sum = 0;
         List<Integer> negativeNumbers = new ArrayList<>();
@@ -39,10 +36,23 @@ public class StringCalculator {
         }
         return sum;
     }
-    private void throwInvalidFormat() {
+    private static String parseDelimiterList(String text) {
+        if (text.length() == 1) {
+            return "[,\n" + text.charAt(0) + "]";
+        }
+        if (text.charAt(0) != '[' || text.indexOf(']', 1) == -1) {
+            throwInvalidFormat();
+        }
+        String delimiter = text.substring(1, text.indexOf(']', 1));
+        if (delimiter.isEmpty()) {
+            throwInvalidFormat();
+        }
+        return Pattern.quote(delimiter) + "|,|\n";
+    }
+    private static void throwInvalidFormat () {
         throw new IllegalArgumentException("Invalid input format.");
     }
-    private void throwNegativeNumbersException(List<Integer> negativeNumbers) {
+    private void throwNegativeNumbersException (List < Integer > negativeNumbers) {
         String message = "Negatives not allowed: " + negativeNumbers.toString();
         throw new IllegalArgumentException(message);
     }
